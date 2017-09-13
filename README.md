@@ -1,6 +1,6 @@
-# Hyperion
+# Cronus.UI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.1.
+This project is using Angular CLI verson 1.2.6.
 
 ## Development server
 
