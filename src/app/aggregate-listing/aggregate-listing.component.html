@@ -1,0 +1,39 @@
+<div class="form-group">
+  <div class="aggr-search">
+        <div class="row">
+          <div class="col-lg-3">
+            <input type="text" class="form-control" placeholder="Url" [(ngModel)]="url" >
+          </div>
+          <div class="col-lg-3">
+            <input type="text" class="form-control" placeholder="Aggregate id" [(ngModel)]="aggrId" >
+          </div>
+          <div class="col-lg-3">
+            <button (click)="getAggregateId(url, aggrId)">Check</button> 
+          </div>
+        </div>
+    </div>   
+</div>
+
+
+<div *ngIf="results" class="panel panel-default aggregate-wrapper">
+  <div class="panel-heading">
+    <h1>{{results.Result.BoundedContext}}</h1>
+    <span>{{results.Result.AggregateId}}</span>
+  </div>
+  <div class="panel-body">
+      <div *ngFor="let a of results.Result.Commits">
+        <div *ngFor="let b of a.Events;let i = index" class="">
+          <h3> <span class="aggr-show" (click)="b.active = !b.active"><fa [name]="'plus-circle'"></fa></span> {{b.EventName}}</h3>
+          
+          <p>{{a.Timestamp}}</p>
+          <pre [class.active]="b.active" class="aggregate-json slideInDown animated">
+            {{b.EventData | json}}
+          </pre>
+            
+        </div>
+      </div>
+  </div>
+</div>
+
+
+    
