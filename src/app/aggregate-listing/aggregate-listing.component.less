@@ -1,0 +1,157 @@
+.aggregate-wrapper {
+    .aggregate-json {
+            animation-duration: 1s;
+            animation-fill-mode: both;
+            animation-name: slideInUp;
+            display:none;
+    }
+     .aggregate-json.active {
+        display:block;
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-name: slideInDown;
+    }
+    .panel-heading {
+        background-color: #141519;
+        border-color: #ddd;
+
+        h1 {
+            color: #fff;
+            font-family: 'Lato', sans-serif;
+        }
+
+        span {
+            color: #fff;
+            font-family: 'Lato', sans-serif;
+        }
+    }
+
+    .aggr-show {
+      cursor: pointer;
+      color: #337ab7;
+      display: inline-block;
+      transition-duration: 0.5s;
+      transition-property: transform;
+
+      &:hover{
+        -ms-transform: rotate(7deg); /* IE 9 */
+        -webkit-transform: rotate(7deg); /* Chrome, Safari, Opera */
+        transform: rotate(90deg);
+      }
+    }
+}
+
+.aggr-search  {
+
+    input {
+          border-radius: 100px;
+          font-size: 14px;
+          transition: 0.5s ease-in;
+          margin-bottom:30px;
+    }
+    button {
+          box-sizing: border-box;
+          position: relative;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          cursor: pointer;
+          outline: 0;
+          border: none;
+          -webkit-tap-highlight-color: transparent;
+          display: inline-block;
+          white-space: nowrap;
+          text-decoration: none;
+          vertical-align: baseline;
+          color:#fff;
+          text-align: center;
+          margin: 0;
+          min-width: 88px;
+          line-height: 36px;
+          padding: 0 16px;
+          border-radius: 2px;
+          box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+          transform: translate3d(0,0,0);
+          transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);
+          background-color: #337ab7;
+          border-color: #2e6da4;
+    }
+}
+@keyframes slideInDown {
+  from {
+    transform: translate3d(0, -5%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes slideInUp {
+  from {
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes flash {
+  from, 50%, to {
+    opacity: 1;
+  }
+
+  25%, 75% {
+    opacity: 0;
+  }
+}
+
+@keyframes flipInX {
+  from {
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  40% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    animation-timing-function: ease-in;
+  }
+
+  60% {
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    opacity: 1;
+  }
+
+  80% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+  }
+
+  to {
+    transform: perspective(400px);
+  }
+}
+
+.flipInX {
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  animation-name: flipInX;
+}
+
+.flash {
+  animation-name: flash;
+}
+
+.slideInUp {
+  animation-name: slideInUp;
+}
+
+.slideInDown {
+  animation-name: slideInDown;
+}
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}

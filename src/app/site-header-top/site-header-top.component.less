@@ -1,0 +1,51 @@
+header.app-header{
+    
+    background-color: #fff;
+    border:none;
+    height:55px;
+    display: flex;
+    margin-bottom:0px;
+    width:100%;
+    z-index:1000;
+    top:0px;
+    position:fixed;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+
+
+    a.navbar-brand{
+        font-family: 'Lato', sans-serif;
+        display: inline-block;
+        text-transform:uppercase;
+        font-weight: 800;
+        color:#fff;
+        text-decoration:none;
+        font-size: 1.25em;
+        line-height: inherit;
+        white-space: nowrap;
+        background-color: #141519;
+        padding: 14px 66px;
+        max-width: 225px;
+        height: auto;
+    }
+    .navbar-nav{
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        width:100%;
+
+            > li > a{
+                padding:17px 15px;
+                color: rgba(0,0,0,.3);
+
+                &:hover{
+                    background:none;
+                    color: rgba(0,0,0,0.6);
+                }
+            }
+    }
+}
