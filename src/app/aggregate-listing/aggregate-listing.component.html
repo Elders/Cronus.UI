@@ -17,17 +17,17 @@
 
 <div *ngIf="results" class="panel panel-default aggregate-wrapper">
   <div class="panel-heading">
-    <h1>{{results.Result.BoundedContext}}</h1>
-    <span>{{results.Result.AggregateId}}</span>
+    <h1>{{results.result.boundedContext}}</h1>
+    <span>{{results.result.aggregateId}}</span>
   </div>
   <div class="panel-body">
-      <div *ngFor="let a of results.Result.Commits">
-        <div *ngFor="let b of a.Events;let i = index" class="">
-          <h3> <span class="aggr-show" (click)="b.active = !b.active"><fa [name]="'plus-circle'"></fa></span> {{b.EventName}}</h3>
+      <div *ngFor="let a of results.result.commits">
+        <div *ngFor="let b of a.events;let i = index" class="">
+          <h3> <span class="aggr-show" (click)="b.active = !b.active"><fa [name]="'plus-circle'"></fa></span> {{b.eventName}}</h3>
           
-          <p>{{a.Timestamp}}</p>
+          <p>{{a.timestamp}}</p>
           <pre [class.active]="b.active" class="aggregate-json slideInDown animated">
-            {{b.EventData | json}}
+            {{b.eventData | json}}
           </pre>
             
         </div>
