@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 
 export interface IResults{
-    result: IResult;
-    errors: any;
+    result: any;
+    errors?: any;
     isSuccess:boolean;
 }
 
-export interface IResult{
+export interface IAggregate{
     boundedContext: string;
     aggregateId: string;
     commits: ICommits[];
@@ -16,6 +16,27 @@ export interface IResult{
 export interface ICommits{
     aggregateRootRevision: number;
     events: Array<any>;
+}
+
+export interface IProjections {
+    projections: IProjection[];
+}
+
+export interface IProjection {
+    projectionContractId: string;
+    projectionName: string;
+    versions: IProjectionVersion[];
+}
+
+export interface IProjectionVersion {
+    hash: string;
+    revision: number;
+    status: string;
+}
+
+export interface IProjectionDetail {
+    name: string;
+    state: any;
 }
 
 

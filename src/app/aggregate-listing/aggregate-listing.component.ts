@@ -1,7 +1,7 @@
 import { Component, Pipe, PipeTransform, OnInit } from '@angular/core';
 import {AggregateServiceService} from '../services/aggregate-service.service';
 import {IResults} from '../services/infra';
-import {IResult} from '../services/infra';
+import {IAggregate} from '../services/infra';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 

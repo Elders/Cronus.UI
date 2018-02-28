@@ -1,0 +1,28 @@
+<div class="form-group">
+    <div class="proj-search">
+          <div class="row">
+            <div class="col-lg-3">
+              <label>
+                State Id
+              </label>
+              <input type="text" class="form-control col-lg-6" placeholder="Example: urn:mv:account:737" [(ngModel)]="id" >
+              <button class="col-lg-2" (click)="getProjectionDetail(id)">Check</button> 
+            </div>
+          </div>
+      </div>   
+  </div>
+  
+  <div *ngIf="results" class="panel panel-default projection-detail-wrapper">
+      <div class="panel-heading">
+        <h1>{{results.result.name}}</h1>
+        <span>{{results.result.aggregateId}}</span>
+      </div>
+      <div class="panel-body">
+          
+              
+              <pre class="aggregate-json">
+                {{results.result.state | json}}
+              </pre>
+              
+      </div>
+    </div>

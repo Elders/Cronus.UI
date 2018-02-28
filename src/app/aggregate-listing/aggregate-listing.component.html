@@ -2,10 +2,10 @@
   <div class="aggr-search">
         <div class="row">
           <div class="col-lg-3">
-            <input type="text" class="form-control" placeholder="Url" [(ngModel)]="url" >
+            <input type="text" class="form-control" placeholder="192.168.10.160:9000" [(ngModel)]="url" >
           </div>
           <div class="col-lg-3">
-            <input type="text" class="form-control" placeholder="Aggregate id" [(ngModel)]="aggrId" >
+            <input type="text" class="form-control" placeholder="urn:mv:ticket:01f5a448-a08e-45bc-85ff-a57824835810" [(ngModel)]="aggrId" >
           </div>
           <div class="col-lg-3">
             <button (click)="getAggregateId(url, aggrId)">Check</button> 

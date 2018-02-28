@@ -3,6 +3,8 @@ import {Routes, RouterModule} from '@angular/router';
 import {AboutComponent} from './components/about.component';
 import {HomePageComponent} from './home-page/home-page.component';
 import {AggregateListingComponent} from './aggregate-listing/aggregate-listing.component';
+import { ProjectionListingComponent } from './projection-listing/projection-listing.component';
+import { ProjectionDetailComponent } from './projection-detail/projection-detail.component';
 
 const appRoutes: Routes = [
     {
@@ -16,6 +18,14 @@ const appRoutes: Routes = [
     {
         path: 'about',
         component: AboutComponent
+    },
+    {
+        path: 'projections',
+        component: ProjectionListingComponent
+    },
+    {
+        path: 'projections/:url/:id',
+        component: ProjectionDetailComponent
     },
     { 
         path: 'lazy',
