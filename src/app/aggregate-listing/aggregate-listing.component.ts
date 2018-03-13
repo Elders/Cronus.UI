@@ -18,6 +18,7 @@ export class AggregateListingComponent implements OnInit {
   public show: boolean;
   public aggrId: string;
   public url: string;
+  public loading:boolean = false;  
 
   constructor(
       public r: Router,
@@ -41,8 +42,10 @@ export class AggregateListingComponent implements OnInit {
       });
   }
   getAggregateId (url: string, id: string){
+    this.loading = true;
      this.aggrService.getAggregatesId(url, id).subscribe(x => {
           this.results = x;
+          this.loading = false;
           console.log(this.results);
       });
   }

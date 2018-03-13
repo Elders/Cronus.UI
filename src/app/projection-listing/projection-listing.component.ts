@@ -16,18 +16,31 @@ export class ProjectionListingComponent implements OnInit {
   public router: Router;
   public url: string;
   public p: number = 1;
+  public loading:boolean = false;
 
   constructor(public r: Router, public projService: ProjectionServiceService) { 
     this.router = r;
   }
 
   ngOnInit() {
+    if(localStorage.getItem("projectionResult")){
+      var projectionResult = localStorage.getItem("projectionResult");
+      this.results = JSON.parse(projectionResult);
+      
+    }
+    if(localStorage.getItem("projectionUrl")){
+      this.url = localStorage.getItem("projectionUrl");
+    }
   }
 
   getProjections (url: string){
+      this.loading = true;
       this.projService.getProjections(url).subscribe(x => {
         this.results = x;
+        this.loading = false;
         console.log(this.results);
+        localStorage.setItem('projectionResult', JSON.stringify(this.results));
+        localStorage.setItem('projectionUrl', url);
      });
   }
 
