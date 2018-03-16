@@ -17,6 +17,7 @@ export class ProjectionListingComponent implements OnInit {
   public url: string;
   public p: number = 1;
   public loading:boolean = false;
+  public error:boolean = false;
 
   constructor(public r: Router, public projService: ProjectionServiceService) { 
     this.router = r;
@@ -41,7 +42,11 @@ export class ProjectionListingComponent implements OnInit {
         console.log(this.results);
         localStorage.setItem('projectionResult', JSON.stringify(this.results));
         localStorage.setItem('projectionUrl', url);
-     });
+        this.error = false;
+     },
+      error => {
+      this.error = true;
+   });
   }
 
   goToProductDetails(id) {

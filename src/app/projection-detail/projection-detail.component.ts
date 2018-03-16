@@ -18,6 +18,7 @@ export class ProjectionDetailComponent implements OnInit {
   public projectionContractId: string;
   public id: string;
   public loading:boolean = false;
+  public error:boolean = false;
 
   constructor(public r: Router, public projService: ProjectionServiceService, public activatedRoute: ActivatedRoute) { 
     this.router = r;
@@ -38,6 +39,10 @@ export class ProjectionDetailComponent implements OnInit {
       this.results = x;
       this.loading = false;
       console.log(this.results);
+      this.error = false;
+   },
+    error => {
+      this.error = true;
    });
   }
 

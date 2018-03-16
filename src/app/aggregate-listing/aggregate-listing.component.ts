@@ -19,6 +19,7 @@ export class AggregateListingComponent implements OnInit {
   public aggrId: string;
   public url: string;
   public loading:boolean = false;  
+  public error:boolean = false;  
 
   constructor(
       public r: Router,
@@ -47,7 +48,10 @@ export class AggregateListingComponent implements OnInit {
           this.results = x;
           this.loading = false;
           console.log(this.results);
-      });
+          this.error = false;
+      },error => {
+        this.error = true;
+     });
   }
 
 }
