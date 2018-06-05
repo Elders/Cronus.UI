@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpModule } from '@angular/http';
+import {FormsModule} from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ProjectionDetailComponent } from './projection-detail.component';
 
 describe('ProjectionDetailComponent', () => {
@@ -8,6 +10,7 @@ describe('ProjectionDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpModule, FormsModule, RouterTestingModule ],
       declarations: [ ProjectionDetailComponent ]
     })
     .compileComponents();

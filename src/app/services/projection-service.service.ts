@@ -6,7 +6,7 @@ import {IResults} from './infra';
 
 @Injectable()
 export class ProjectionServiceService {
-
+  
   constructor(private http: Http) { }
 
   getProjections(url: string): Observable<IResults>{

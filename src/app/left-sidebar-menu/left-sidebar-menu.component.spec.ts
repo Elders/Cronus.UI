@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LeftSidebarMenuComponent } from './left-sidebar-menu.component';
+import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
 
 describe('LeftSidebarMenuComponent', () => {
   let component: LeftSidebarMenuComponent;
@@ -8,7 +9,8 @@ describe('LeftSidebarMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LeftSidebarMenuComponent ]
+      declarations: [ LeftSidebarMenuComponent ],
+      imports: [ Angular2FontawesomeModule ]
     })
     .compileComponents();
   }));
