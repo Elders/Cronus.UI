@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:8.11.2-alpine
 
 RUN mkdir /app
 
@@ -12,12 +12,12 @@ ENV NPM_CONFIG_LOGLEVEL warn
 
 RUN npm install && npm install app --save font-awesome angular2-fontawesome && npm install http-server -g 
 
-RUN node_modules/.bin/ng build -prod --output-path=../dist
+RUN node_modules/.bin/ng build --prod --output-path=../dist
 
 RUN ls
 
 WORKDIR ..
 
-RUN rm -rf app 
+#RUN rm -rf app 
 
 CMD http-server dist
