@@ -24,8 +24,8 @@ export class ProjectionServiceService {
     return this.http.get<Post[]>(`${this.root_url}/posts`);
   }
 
-  multiply(): string {
-    return './projection-detail.component.html';
+  multiply(first: number, second: number) {
+    return first * second;
   }
 
 

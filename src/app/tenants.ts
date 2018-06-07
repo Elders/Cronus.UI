@@ -148,8 +148,6 @@ export function MultitenantModule(target) {
   var ngModule = <NgModule>(Reflection.getAnnotation(target)[0]);
 
   ngModule.declarations = MultitenantService.getBootModules(ngModule.declarations);
-  // var stupiiid=CompileReflector.prototype.annotations(target);
-  // console.log(stupiiid);
 
 }
 function Tenant(tenant: string) {
