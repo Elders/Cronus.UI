@@ -1,24 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, OnInit, TypeDecorator, Directive } from '@angular/core';
 import {ProjectionServiceService} from '../services/projection-service.service';
 import {IResults} from '../services/infra';
 import {IProjections} from '../services/infra';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JsonPipe } from '@angular/common';
+import {Tenant, Path} from '../tenants';
+
+
 
 @Component({
   selector: 'app-projection-listing',
-  templateUrl: './projection-listing.component.html',
+  
+  templateUrl:  './projection-listing.component.html',
   styleUrls: ['./projection-listing.component.less'],
   providers: [ProjectionServiceService]
-})
-export class ProjectionListingComponent implements OnInit {
+})  
+@Path("projections")
+ class ProjectionListingComponent implements OnInit {
   results: IResults;
   public router: Router;
   public url: string;
   public p: number = 1;
   public loading:boolean = false;
   public error:boolean = false;
-
+  public selector: string = "app-projection-listing";
+  
   constructor(public r: Router, public projService: ProjectionServiceService) { 
     this.router = r;
   }
@@ -54,3 +61,5 @@ export class ProjectionListingComponent implements OnInit {
   }
 
 }
+ 
+export {ProjectionListingComponent};

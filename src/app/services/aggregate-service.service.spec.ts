@@ -2,11 +2,12 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { AggregateServiceService } from './aggregate-service.service';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule} from '@angular/common/http';
 
 describe('AggregateServiceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpModule ],
+      imports: [ HttpModule, HttpClientModule ],
       providers: [AggregateServiceService]
     });
   });

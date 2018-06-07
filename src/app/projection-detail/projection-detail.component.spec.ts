@@ -3,6 +3,7 @@ import { HttpModule } from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ProjectionDetailComponent } from './projection-detail.component';
+import { HttpClientModule} from '@angular/common/http';
 
 describe('ProjectionDetailComponent', () => {
   let component: ProjectionDetailComponent;
@@ -10,7 +11,7 @@ describe('ProjectionDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpModule, FormsModule, RouterTestingModule ],
+      imports: [ HttpModule, FormsModule, RouterTestingModule, HttpClientModule ],
       declarations: [ ProjectionDetailComponent ]
     })
     .compileComponents();

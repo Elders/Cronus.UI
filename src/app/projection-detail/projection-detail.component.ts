@@ -4,6 +4,7 @@ import {IResults} from '../services/infra';
 import {IProjections} from '../services/infra';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { JsonPipe } from '@angular/common';
+import { Path } from '../tenants';
 
 @Component({
   selector: 'app-projection-detail',
@@ -11,6 +12,7 @@ import { JsonPipe } from '@angular/common';
   styleUrls: ['./projection-detail.component.less'],
   providers: [ProjectionServiceService]
 })
+@Path('projections/:url/:id')
 export class ProjectionDetailComponent implements OnInit {
   results: IResults;
   public router: Router;

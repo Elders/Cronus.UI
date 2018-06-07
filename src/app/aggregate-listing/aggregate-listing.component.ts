@@ -4,6 +4,7 @@ import {IResults} from '../services/infra';
 import {IAggregate} from '../services/infra';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JsonPipe } from '@angular/common';
+import { Path } from '../tenants';
 
 @Component({
   selector: 'app-aggregate',
@@ -11,6 +12,7 @@ import { JsonPipe } from '@angular/common';
   styleUrls: ['./aggregate-listing.component.less'],
   providers: [AggregateServiceService]
 })
+@Path("aggregate")
 export class AggregateListingComponent implements OnInit {
   results: IResults;
   public router: Router;

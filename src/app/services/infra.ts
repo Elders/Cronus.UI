@@ -39,5 +39,12 @@ export interface IProjectionDetail {
     state: any;
 }
 
+export interface Post {
+    id: number;
+    userId: string;
+    body: string;
+    title: string;
+}
+
 
 
