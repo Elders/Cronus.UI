@@ -15,6 +15,7 @@ MultitenantService.getRoutes().forEach(x=>{
         })
     }
 });
+//declare routes for lkazy modules
 routes.push({ 
     path: 'lazy',
     loadChildren: './lazy/lazy.module#LazyModule' 

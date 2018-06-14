@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Tenant,Path } from '../tenants';
-@Path('') 
+
+@Tenant('pruvit')
 @Component({
-  selector: 'lazy',
-  templateUrl: './lazy.component.html',
+  selector: 'aaaaaaa',
+  template: '<h2>Pruvit AAAAAA</h2>',
   styleUrls: ['./lazy.component.less']
-})
-export class LazyComponent implements OnInit {
+}) 
+
+export class LazyPruvitComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit() {
-    console.log('asdf');
+    console.log('POPPOOPOP');
   }
 
 }
