@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { LazyComponent }   from './lazy.component'; 
 import { MultitenantModule } from '../tenants';
