@@ -1,166 +1,263 @@
 import { NgModule, ReflectiveInjector } from '@angular/core';
 import { Reflection } from './ng-reflection';
+import {Routes,Route} from '@angular/router';
+import { RouterModule } from '@angular/router';
 
-class MultitenantServiceRegistrations {
-  components: [{ component: any, tenant: string, path: string }];
-  constructor() {
+interface  IMultiTenantService{
+  exportChildModule(module:any,ngModule:NgModule);
+  exportMainModule(module:any,ngModule:NgModule);
+  getTenantByName(name:string):ITenant;
+  getCurrentTenant():ITenant;
+}
+interface ITenant{ 
+  registerComponent(component:any);
+  getComponents(): any[];
+  getName(): string 
+} 
+function GetComponentId(component:any):string{
+  var found = Reflection.getAnnotation(component).filter(x => x.selector)[0]
+  if(found)
+    return found.selector; 
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
   }
-  getComponentTenant(component) {
-    if (!this.components)
-      return "default";
-    var found = this.components.filter(x => x.component == component);
-    if (found.length == 0)
-      return "default"
-    else
-      return found[0].tenant;
-  }
-  registerTenant(component, tenant) {
-    var registration = {
-      component: component,
-      tenant: tenant,
-      path: null,
-    }
-    if (!this.components) {
-      this.components = [registration];
-    }
-    else {
-      var current = this.components.filter(x => x.component == component);
-      if (current.length == 0)
-        this.components.push(registration);
-      else {
-        current[0].tenant = tenant;
-      }
-    }
-  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
+function Merge(base:any[], toMerge:any[],getId: any):any[]
+{
+  var yeild=[];
+  var result={};
+  var compoenentsToPrefix=[];
+  base.forEach(item => { 
+   result[getId(item)]=item; 
+  });
+  toMerge.forEach(item => { 
+    result[getId(item)]=item; 
+   });
+   Object.keys(result).forEach(x=>yeild.push(result[x]));
+   return yeild;
+}
+class NewMultitenantService implements IMultiTenantService{
+  
+  tenants: ITenant[];
+  defaultTenant:ITenant;
+  routes: Route[];  
 
-  registerPath(component, path) {
-    var registration = {
-      component: component,
-      tenant: "default",
-      path: path,
-    }
-    if (!this.components) {
-      this.components = [registration];
-    }
-    else {
-      var current = this.components.filter(x => x.component == component);
-      if (current.length == 0)
-        this.components.push(registration);
-      else {
-        current[0].path = path;
-      }
-    }
+  constructor(){
+    this.routes=[];
+    this.tenants=[];
+    this.defaultTenant=new TenantRegistration(null,"default"); 
+    this.tenants.push(this.defaultTenant);
   }
-  getRegistrations(): [{ component: any, tenant: string, path: string }] {
-    var components = [];
-    var tenant = this.getTenant();
-    this.components.forEach(element => {
-      if (element.tenant == tenant)
-        components.push(element);
+   
+  exportMainModule(appmodule:any, ngModule:NgModule){
+    var exportedComponents=[];
+    var tenant= this.getCurrentTenant();
+    ngModule.declarations.forEach(componenet=>
+    {
+      var tenant= MultiTenantService.getTenantByComponent(componenet) || MultiTenantService.getDefaultTenant(); 
+      tenant.registerComponent(componenet); 
     });
-    return this.components;
-  }
-  getRegistrationsAsComponents(): any[] {
-    var components = [];
-    var tenant = this.getTenant();
-
-    this.components.forEach(element => {
-      if (element.tenant == tenant)
-        components.push(element);
-    });
-    return components;
-  }
-
-  compoennetSelctors: [{ selector: string, components: any[] }];
-  registerComponentSelector(component: any) {
-
-    var componentAnotation = Reflection.getAnnotation(component).filter(x => x.selector)[0];
-    var selector = componentAnotation.selector;
-    if (!this.compoennetSelctors) {
-      this.compoennetSelctors = [{ selector: selector, components: [component] }]
-    }
-    else {
-      var found = this.compoennetSelctors.filter(x => x.selector == selector);
-      if (found.length == 0)
-        this.compoennetSelctors.push({ selector: selector, components: [component] })
+    var tenantComponents = Merge(this.defaultTenant.getComponents(), this.getCurrentTenant().getComponents(), x=>GetComponentId(x));
+    this.tenants.forEach(t=>t.getComponents().forEach(c=>{
+        if(tenantComponents.indexOf(c)==-1)
+          this.fixupSelector(c);
+       if(ngModule.declarations.indexOf(c)>-1)
+        exportedComponents.push(c);
+    }));  
+    var exportedRoutes=[];
+    this.routes.forEach(route => {
+      if(!route.component)
+      { 
+        console.log(route);
+        throw "route doesn not have a compnenet" + route;
+      }
       else
-        found[0].components.push(component);
-    }
-  }
-
-  getBootModules(allModules: any[]): any[] {
-    var currentTenenat = this.getTenant();
-    allModules.forEach(mod => {
-      var moduleTenant = this.getComponentTenant(mod);
-      this.registerTenant(mod, moduleTenant);
-      this.registerComponentSelector(mod);
-    })
-    this.compoennetSelctors.forEach(element => {
-      if (element.components.length > 1) {
-        element.components.forEach(c => {
-          if (this.getComponentTenant(c) != currentTenenat) {
-            var componentAnotation = Reflection.getAnnotation(c).filter(x => x.selector)[0];
-            componentAnotation.selector = this.getComponentTenant(c) + "-" + componentAnotation.selector;
-          }
-        });
+      {
+        if(tenantComponents.indexOf(route.component)>-1 && ngModule.declarations.indexOf(route.component)>-1)
+        {
+          exportedRoutes.push(route);
+        }
       }
     });
-    return allModules;
+
+      if(appmodule.children)
+       { 
+        console.log(appmodule.children);
+          for(var i = 0;i<appmodule.children.length;i++)
+            exportedRoutes.push(appmodule.children[i])
+     
+       }
+      
+      ngModule.declarations = exportedComponents.filter(x=>ngModule.declarations.indexOf(x)>-1);
+      ngModule.imports.push(RouterModule.forRoot(exportedRoutes))
   }
 
-  getRoutes(): any[] {
-    var currentTenenat = this.getTenant();
-    var result = [];
-    var routes = {};
-    this.components.forEach(x => {
-      if (!routes[x.path]) {
-        routes[x.path]={ components :[]}; 
+  exportChildModule(appmodule:any, ngModule:NgModule){
+    var exportedComponents=[];
+    var tenant= this.getCurrentTenant();
+    ngModule.declarations.forEach(componenet=>
+    {
+      var tenant= MultiTenantService.getTenantByComponent(componenet) || MultiTenantService.getDefaultTenant(); 
+      tenant.registerComponent(componenet); 
+    });
+    var tenantComponents = Merge(this.defaultTenant.getComponents(), this.getCurrentTenant().getComponents(), x=>GetComponentId(x));
+    this.tenants.forEach(t=>t.getComponents().forEach(c=>{
+        if(tenantComponents.indexOf(c)==-1)
+          this.fixupSelector(c);
+       if(ngModule.declarations.indexOf(c)>-1)
+        exportedComponents.push(c);
+    }));  
+    var exportedRoutes=[];
+    this.routes.forEach(route => {
+      if(!route.component)
+       {
+          console.log(route);
+          throw "route doesn not have a compnenet" + route;
+       }
+      else
+      {
+        if(tenantComponents.indexOf(route.component)>-1 && ngModule.declarations.indexOf(route.component)>-1)
+        {
+          exportedRoutes.push(route);
+        }
       }
-      routes[x.path].components.push(x);
-    }) 
-    for (var key in routes) {
-      var found = routes[key].components[0].component;
-      if (routes[key].components.length > 1) {
+    });
 
-        routes[key].components.forEach(c => {
-          if (c.tenant == currentTenenat) {
-            found = c.component;
-          }
-        });
-      }
-      result.push({ path: key, component: found });
+    if(appmodule.children)
+    { 
+     console.log(appmodule.children);
+       for(var i = 0;i<appmodule.children.length;i++)
+         exportedRoutes.push(appmodule.children[i])
+  
     }
-    return result;
+      
+      ngModule.declarations = exportedComponents.filter(x=>ngModule.declarations.indexOf(x)>-1);
+      ngModule.imports.push(RouterModule.forChild(exportedRoutes))
   }
-  getTenant() {
-    if (window.location.toString().indexOf("gg") > 0) {
-      return "pruvit";
+  
+  addChildModule(appmodule,route:Route)
+  {
+    if(!appmodule.children) 
+      appmodule.children=[];
+    appmodule.children.push(route);
+  }
+  fixupSelector(component:any)
+  {
+    var annotation=  Reflection.getAnnotation(component).filter(x => x.selector)[0]
+    annotation.selector = "exclude-"+annotation.selector;
+  }
+
+  registerRoute(route:Route)
+  {
+    this.routes.push(route);
+  }
+
+  getTenantByName(name: any): ITenant { 
+    var found=this.tenants.filter(x=>x.getName()==name);
+    var tenant=null;
+    if(found.length==0)
+    {
+      tenant =new TenantRegistration(this.defaultTenant,name); 
+      this.tenants.push(tenant);
     }
     else
-      return "default";
+      tenant=found[0];
+    return tenant;
+  }
+
+  getTenantByComponent(component: any): ITenant {
+    var found=this.tenants.filter(x=>x.getComponents().filter(y=>y==component).length>0); 
+    if(found.length==0) 
+      return null
+    else
+     return found[0]; 
+  }
+
+  getDefaultTenant(){
+    return this.defaultTenant;
+  }
+
+  getCurrentTenant(): ITenant {
+    if (window.location.toString().indexOf("?gg") > 0) {
+     return this.getTenantByName("pruvit");
+    }
+    else
+     return this.getTenantByName("default");
+  }
+}
+class TenantRegistration implements ITenant{
+
+  private routes:Route[];
+
+  private components:any[];
+
+  constructor(private defaultTenant:ITenant,private name:string){
+      this.routes=[];
+      this.components=[];
+  }
+
+  getName(): string {
+   return this.name;
+  }
+
+  registerComponent(component: any) {
+    if(this.components.indexOf(component)==-1)
+       this.components.push(component);
+  }
+
+  getComponents(): any[] {
+    return this.components; 
   }
 }
 
-var MultitenantService = (new MultitenantServiceRegistrations());
+var MultiTenantService = new NewMultitenantService();
 
 export function MultitenantModule(target) {
-
-  var ngModule = <NgModule>(Reflection.getAnnotation(target)[0]);
-
-  ngModule.declarations = MultitenantService.getBootModules(ngModule.declarations);
-
+ 
+  var ngModule = <NgModule>(Reflection.getAnnotation(target)[0]); 
+  MultiTenantService.exportMainModule(target,ngModule); 
 }
-function Tenant(tenant: string) {
+export function MultitenantLazyModule(target){
+   
+  var ngModule = <NgModule>(Reflection.getAnnotation(target)[0]); 
+  MultiTenantService.exportChildModule(target,ngModule);
+}
 
+export function RegisterChildModule(route:Route){
   return <any>function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    MultitenantService.registerTenant(target, tenant);
+    MultiTenantService.addChildModule(target,route);
+ };
+}
+
+function Tenant(tenant?: string, route?:Route) {
+  return <any>function (target: any, propertyKey: string, descriptor: PropertyDescriptor) { 
+    var tenantInstnace = MultiTenantService.getDefaultTenant();
+    if(tenant)
+      tenantInstnace = MultiTenantService.getTenantByName(tenant)
+      
+    if(route)
+      route.component=target;
+    tenantInstnace.registerComponent(target);
   };
 }
-function Path(path: string) {
+function Path(path) {
   return <any>function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    MultitenantService.registerPath(target, path);
+    MultiTenantService.registerRoute({
+      path:path,
+      component:target
+    })
   };
 }
-export { MultitenantService };
+function Route(route: Route) {
+  return <any>function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    if(!route.component)
+      route.component=target;
+    MultiTenantService.registerRoute(route);
+  };
+}
+export { MultiTenantService };
 export { Tenant };
-export { Path };
+export { Path,Route };

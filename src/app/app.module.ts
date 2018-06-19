@@ -17,17 +17,21 @@ import { AggregateListingComponent } from './aggregate-listing/aggregate-listing
 import { ProjectionListingComponent } from './projection-listing/projection-listing.component';
 import { ProjectionDetailComponent } from './projection-detail/projection-detail.component';
 import { ProjectionServiceService } from './services/projection-service.service';
-import { MultitenantModule } from './tenants';
+import { MultitenantModule,RegisterChildModule } from './tenants';
 import { OpaComponent } from './opa/opa.component';
 import { OpaPruvitComponent } from './opa-pruvit/opa-pruvit.component';
-import {routing} from './app.routing';
-
 @MultitenantModule
+
 @NgModule({
-  imports:      [ BrowserModule, FormsModule, HttpModule, routing, Angular2FontawesomeModule, NgxPaginationModule, RouterModule, HttpClientModule ],
+  imports:      [ BrowserModule, FormsModule, HttpModule, Angular2FontawesomeModule, NgxPaginationModule, RouterModule, HttpClientModule ],
   declarations: [ AppComponent, AboutComponent, SiteHeaderTopComponent, LeftSidebarMenuComponent, MainComponent, HomePageComponent, AggregateListingComponent, ProjectionListingComponent, ProjectionDetailComponent, OpaComponent, OpaPruvitComponent ],
   providers: [ProjectionServiceService],
   bootstrap:    [ AppComponent ],
   exports: [SiteHeaderTopComponent]
 })
+@RegisterChildModule({ 
+  path: 'lazy',
+  loadChildren: './lazy/lazy.module#LazyModule' 
+})
 export class AppModule { }
+ 

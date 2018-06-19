@@ -5,7 +5,7 @@ import {IResults} from '../services/infra';
 import {IProjections} from '../services/infra';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JsonPipe } from '@angular/common';
-import {Tenant, Path} from '../tenants';
+import {Tenant, Path,Route} from '../tenants';
 
 
 
@@ -16,7 +16,7 @@ import {Tenant, Path} from '../tenants';
   styleUrls: ['./projection-listing.component.less'],
   providers: [ProjectionServiceService]
 })  
-@Path("projections")
+@Path("projections") 
  class ProjectionListingComponent implements OnInit {
   results: IResults;
   public router: Router;
