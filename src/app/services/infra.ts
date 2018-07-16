@@ -6,6 +6,12 @@ export interface IResults{
     isSuccess:boolean;
 }
 
+export interface IResult<T> {
+    result: T;
+    errors?: string[];
+    isSuccess: boolean;
+}
+
 export interface IAggregate{
     boundedContext: string;
     aggregateId: string;

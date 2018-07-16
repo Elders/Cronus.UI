@@ -1,25 +1,24 @@
-
-  <div class="form-group">
-    <div class="proj-search">
-          <div class="row">
-            <div class="col-lg-3">
-              <input type="text" class="form-control" placeholder="192.168.10.160:9000" [(ngModel)]="url" >
-            </div>
-            <div class="col-lg-3">
-              <button (click)="getProjections(url)">Check</button> 
-            </div>
-          </div>
-      </div>   
+<div class="form-group">
+  <div class="proj-search">
+    <div class="row">
+      <div class="col-lg-3">
+        <input type="text" class="form-control" placeholder="192.168.10.160:9000" [(ngModel)]="url">
+      </div>
+      <div class="col-lg-3">
+        <button (click)="getProjections(url)">Check</button>
+      </div>
+    </div>
   </div>
+</div>
 <div class="preload-wrapper">
   <div *ngIf="loading" class="preloader">
     <svg class="circular" viewBox="25 25 50 50">
-        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle> 
+      <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
     </svg>
   </div>
   <div *ngIf="results" class="panel panel-default projection-wrapper">
     <div class="panel-heading">
-     <h1>Projections</h1>
+      <h1>Projections</h1>
     </div>
     <table class="table table-striped">
       <thead>
@@ -35,27 +34,30 @@
             <h6>{{a.projectionContractId}}</h6>
           </td>
           <td>
-              <span *ngFor="let b of a.versions;let i = index" class="projection-hash-item">
-                  <a  [routerLink]="['/projections', url, a.projectionContractId]">
-                      <span *ngIf="b.status == 'building'" class="label label-primary">{{b.hash}}</span>
-                      <span *ngIf="b.status == 'live'" class="label label-success">{{b.hash}}</span>
-                  </a>
-              </span>
+            <span *ngFor="let b of a.versions;let i = index" class="projection-hash-item">
+              <a [routerLink]="['/projections', url, a.projectionContractId, b.hash, b.status, b.revision]">
+                <span *ngIf="b.status == 'live'" class="label label-success">{{b.hash}} : {{b.revision}}</span>
+                <span *ngIf="b.status == 'building'" class="label label-primary">{{b.hash}} : {{b.revision}}</span>
+                <span *ngIf="b.status == 'canceled'" class="label label-warning">{{b.hash}} : {{b.revision}}</span>
+                <span *ngIf="b.status == 'timedout'" class="label label-danger">{{b.hash}} : {{b.revision}}</span>
+              </a>
+            </span>
           </td>
         </tr>
       </tbody>
     </table>
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
     <hr>
-    Note 1: Hash is live <span class="label label-success">Hash Id</span><br/>
-    Note 2: Hash is building <span class="label label-primary">Hash Id</span><br/>
+    <div class="legend-wrapper">
+      Legend:
+      <span class="label label-success">live</span>
+      <span class="label label-primary">building</span>
+      <span class="label label-warning">canceled</span>
+      <span class="label label-danger">timedout</span>
+    </div>
   </div>
 </div>
 
 <div *ngIf="error == true" class="alert alert-danger col-lg-12">
   <h4>Oooooops something happened !!! (Check the server)</h4>
 </div>
-
-
-  
-

@@ -3,8 +3,9 @@ import {Http, Response, Headers, URLSearchParams, RequestOptions} from '@angular
 import { HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import {IResults} from './infra';
+import {IResult, IResults, IProjection, IProjectionVersion} from './infra';
 import {Post} from './infra';
+import { version } from 'punycode';
 //NOTE TOSELF USE HttpClient instead of Http since its improved (if you are using Angular 4.3 or above)
 @Injectable()
 export class ProjectionServiceService {
@@ -20,13 +21,23 @@ export class ProjectionServiceService {
     return this.http.get<IResults>('http://' + url + '/api/projection/Explore?ProjectionContractId=' + projectionContractId + '&id=' + id + '');
   }
 
+  getProjectionMeta(url: string, projectionContractId: string): Observable<IResult<IProjection>>{
+    return this.http.get<IResult<IProjection>>('http://' + url + '/api/projectionmeta?ProjectionContractId=' + projectionContractId);
+  }
+
   getPosts() {
     return this.http.get<Post[]>(`${this.root_url}/posts`);
+  }
+
+  rebuildProjection(url: string, projectionContractId: string, hash: string): Observable<IResult<any>> {
+    return this.http.post<IResult<any>>('http://' + url + '/api/ProjectionRebuild', { projectionContractId: projectionContractId, hash: hash } );
+  }
+
+  cancelRebuildingProjection(url: string, projectionContractId: string, version: IProjectionVersion, reason: string): Observable<IResult<any>> {
+    return this.http.post<IResult<any>>('http://' + url + '/api/ProjectionCancel', { projectionContractId: projectionContractId, version: version, reason: reason } );
   }
 
   multiply(first: number, second: number) {
     return first * second;
   }
-
-
 }

@@ -31,23 +31,19 @@ import {Tenant, Path,Route} from '../tenants';
   }
 
   ngOnInit() {
-    if(localStorage.getItem("projectionResult")){
-      var projectionResult = localStorage.getItem("projectionResult");
-      this.results = JSON.parse(projectionResult);
-      
-    }
+
     if(localStorage.getItem("projectionUrl")){
       this.url = localStorage.getItem("projectionUrl");
+      this.getProjections(this.url);
     }
   }
 
-  getProjections (url: string){
+  getProjections (url: string) {
       this.loading = true;
       this.projService.getProjections(url).subscribe(x => {
         this.results = x;
         this.loading = false;
         console.log(this.results);
-        localStorage.setItem('projectionResult', JSON.stringify(this.results));
         localStorage.setItem('projectionUrl', url);
         this.error = false;
      },
@@ -59,7 +55,6 @@ import {Tenant, Path,Route} from '../tenants';
   goToProductDetails(id) {
     this.router.navigate(['/projections', id]);
   }
-
 }
  
 export {ProjectionListingComponent};
