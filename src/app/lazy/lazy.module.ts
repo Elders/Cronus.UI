@@ -7,9 +7,9 @@ import { Routes, RouterModule } from '@angular/router';
 import {LazyBod} from './lazy-bodhd.component';
 
 
-//@MultitenantLazyModule
-//@NgModule({
-  //imports: [],
-  //declarations:  [LazyComponent,LazyPruvitComponent,LazyBod]
-//})
+@MultitenantLazyModule
+@NgModule({
+  imports: [],
+  declarations:  [LazyComponent,LazyPruvitComponent,LazyBod]
+})
 export class LazyModule {}
