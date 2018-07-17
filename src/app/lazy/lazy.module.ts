@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
-import { LazyComponent, }   from './lazy.component'; 
+import { LazyComponent }   from './lazy.component'; 
 import { MultitenantModule,MultitenantLazyModule } from '../tenants';
 //import {LazyPruvitComponent} from './lazy-pruvit.component';
 import { Routes, RouterModule } from '@angular/router'; 
