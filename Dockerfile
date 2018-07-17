@@ -12,7 +12,7 @@ ENV NPM_CONFIG_LOGLEVEL warn
 
 RUN npm install && npm install app --save font-awesome angular2-fontawesome && npm install http-server -g 
 
-RUN node_modules/.bin/ng build --build-optimizer=false --output-path=../dist
+RUN node_modules/.bin/ng build --prod --build-optimizer=false --aot=false --output-path=../dist
 
 RUN ls
 
