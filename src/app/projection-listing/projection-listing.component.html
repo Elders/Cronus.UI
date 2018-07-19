@@ -2,10 +2,16 @@
   <div class="proj-search">
     <div class="row">
       <div class="col-lg-3">
-        <input type="text" class="form-control" placeholder="192.168.10.160:9000" [(ngModel)]="url">
+        <ng2-completer placeholder="192.168.10.160:9000" [(ngModel)]="url" (selected)="onItemSelect($event)" [datasource]="dataService" [minSearchLength]="0" class="ng-input-complete"></ng2-completer>
+       
       </div>
       <div class="col-lg-3">
-        <button (click)="getProjections(url)">Check</button>
+        <input class="col-lg-3" type="text" [(ngModel)]="label" placeholder="Label for client (E.G pruvit)" />
+      </div>
+      <div class="col-lg-3">
+        <button class="btn btn-primary" (click)="getProjections(url,label)">Check</button>
+        <button class="btn btn-danger" (click)="deleteProjection(url)">Delete Entry</button>
+        <button class="btn btn-warning" (click)="clearProjections()">Clear</button>
       </div>
     </div>
   </div>

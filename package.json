@@ -30,6 +30,7 @@
     "core-js": "^2.5.7",
     "font-awesome": "^4.7.0",
     "less": "^2.7.3",
+    "ng2-completer": "^2.0.8",
     "ngx-bootstrap": "^1.7.1",
     "ngx-pagination": "^3.1.1",
     "oidc-client": "^1.5.0",

@@ -20,10 +20,11 @@ import { ProjectionServiceService } from './services/projection-service.service'
 import { MultitenantModule,RegisterChildModule } from './tenants';
 import { OpaComponent } from './opa/opa.component';
 import { OpaPruvitComponent } from './opa-pruvit/opa-pruvit.component';
+import { Ng2CompleterModule } from "ng2-completer";
 @MultitenantModule
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule, HttpModule, Angular2FontawesomeModule, NgxPaginationModule, RouterModule, HttpClientModule ],
+  imports:      [ BrowserModule, FormsModule, HttpModule, Angular2FontawesomeModule, NgxPaginationModule, RouterModule, HttpClientModule, Ng2CompleterModule ],
   declarations: [ AppComponent, AboutComponent, SiteHeaderTopComponent, LeftSidebarMenuComponent, MainComponent, HomePageComponent, AggregateListingComponent, ProjectionListingComponent, ProjectionDetailComponent, OpaComponent, OpaPruvitComponent ],
   providers: [ProjectionServiceService],
   bootstrap:    [ AppComponent ],
