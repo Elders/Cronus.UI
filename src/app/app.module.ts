@@ -1,5 +1,5 @@
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { NgModule, Pipe, PipeTransform }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
@@ -21,12 +21,19 @@ import { MultitenantModule,RegisterChildModule } from './tenants';
 import { OpaComponent } from './opa/opa.component';
 import { OpaPruvitComponent } from './opa-pruvit/opa-pruvit.component';
 import { Ng2CompleterModule } from "ng2-completer";
+import { ClientCredentialsComponent } from './client-credentials/client-credentials.component';
+import {AuthService} from './httpInterceptor';
 @MultitenantModule
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, HttpModule, Angular2FontawesomeModule, NgxPaginationModule, RouterModule, HttpClientModule, Ng2CompleterModule ],
-  declarations: [ AppComponent, AboutComponent, SiteHeaderTopComponent, LeftSidebarMenuComponent, MainComponent, HomePageComponent, AggregateListingComponent, ProjectionListingComponent, ProjectionDetailComponent, OpaComponent, OpaPruvitComponent ],
-  providers: [ProjectionServiceService],
+  declarations: [ AppComponent, AboutComponent, SiteHeaderTopComponent, LeftSidebarMenuComponent, MainComponent, HomePageComponent, AggregateListingComponent, ProjectionListingComponent, ProjectionDetailComponent, OpaComponent, OpaPruvitComponent, ClientCredentialsComponent ],
+  providers: [ProjectionServiceService,
+    { 
+      provide: HTTP_INTERCEPTORS, 
+      useClass: AuthService, 
+      multi: true 
+    }],
   bootstrap:    [ AppComponent ],
   exports: [SiteHeaderTopComponent]
 })

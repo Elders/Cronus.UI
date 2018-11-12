@@ -14,7 +14,7 @@ export class ProjectionServiceService {
   constructor(private http: HttpClient) { }
 
   getProjections(url: string): Observable<IResults>{
-    return this.http.get<IResults>('http://' + url + '/api/projectionlist');
+    return this.http.get<IResults>('http://' + url + '/projectionlist');
   }
 
   getProjectionDetail(url: string, projectionContractId: string, id: string): Observable<IResults>{
