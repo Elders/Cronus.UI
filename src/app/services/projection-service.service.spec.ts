@@ -20,7 +20,7 @@ describe('ProjectionServiceService', () => {
   });
 
   it('should get projections via GET', () => {
-    const dummyData: IResults = { "result": { "projections": [{ "projectionContractId": "6fd97755-c98a-43b4-822d-268066900cf9", "projectionName": "PersistentProjectionVersionHandler", "versions": [{ "hash": "jkvskw", "revision": "1", "status": "live" }] }] }, "isSuccess": true };
+    const dummyData: IResults = { "result": { "projections": [{ "projectionName": "6fd97755-c98a-43b4-822d-268066900cf9", "projectionName": "PersistentProjectionVersionHandler", "versions": [{ "hash": "jkvskw", "revision": "1", "status": "live" }] }] }, "isSuccess": true };
     const dummyUrl: string = 'asdf';
 
     service.getProjections(dummyUrl).subscribe(value => {

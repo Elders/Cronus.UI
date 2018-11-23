@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ProjectionServiceService} from '../services/projection-service.service';
-import {IResults, IProjection} from '../services/infra';
-import {IProjections} from '../services/infra';
+import { ProjectionServiceService } from '../services/projection-service.service';
+import { IResults, IProjection } from '../services/infra';
+import { IProjections } from '../services/infra';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import { Path } from '../tenants';
@@ -22,12 +22,12 @@ export class ProjectionDetailComponent implements OnInit {
   public id: string;
   public status: string;
   public revision: number;
-  public loading:boolean = false;
-  public error:boolean = false;
+  public loading: boolean = false;
+  public error: boolean = false;
   public canQuery: boolean;
   public canRebuild: boolean;
 
-  constructor(public r: Router, public projService: ProjectionServiceService, public activatedRoute: ActivatedRoute) { 
+  constructor(public r: Router, public projService: ProjectionServiceService, public activatedRoute: ActivatedRoute) {
     this.router = r;
   }
 
@@ -47,25 +47,32 @@ export class ProjectionDetailComponent implements OnInit {
         if (x.isSuccess) {
           var projection = x.result;
           this.canQuery = projection.versions.find(x => x.status == 'live' && x.hash == this.hash) != null;
-          var liveRevision:number = projection.versions.find(x => x.status == 'live').revision;
-          var currentHashLatestRevision:number = projection.versions.filter(x => x.hash == this.hash).sort((a, b) =>b.revision - a.revision)[0].revision;
+
+          var liveVersion = projection.versions.find(x => x.status == 'live');
+          if (!liveVersion) {
+            this.canRebuild = false;
+            return;
+          }
+
+          var liveRevision: number = projection.versions.find(x => x.status == 'live').revision;
+          var currentHashLatestRevision: number = projection.versions.filter(x => x.hash == this.hash).sort((a, b) => b.revision - a.revision)[0].revision;
           console.log(currentHashLatestRevision);
           console.log(liveRevision);
-          
+
           this.canRebuild = currentHashLatestRevision >= liveRevision;
         }
       }, () => this.error = true);
     });
   }
 
-  getProjectionDetail (id: string) {
+  getProjectionDetail(id: string) {
     this.loading = true;
-    this.projService.getProjectionDetail(this.url, this.projectionContractId,id).subscribe(x => {
+    this.projService.getProjectionDetail(this.url, this.projectionContractId, id).subscribe(x => {
       this.results = x;
       this.loading = false;
       console.log(this.results);
       this.error = false;
-   }, () => this.error = true);
+    }, () => this.error = true);
   }
 
   rebuildProjection() {
@@ -73,14 +80,14 @@ export class ProjectionDetailComponent implements OnInit {
     this.projService.rebuildProjection(this.url, this.projectionContractId, this.hash).subscribe(x => {
       this.loading = false;
       this.error = x.isSuccess == false;
-   }, () => this.error = true);
+    }, () => this.error = true);
   }
 
   cancelProjection() {
     this.loading = true;
-    this.projService.cancelRebuildingProjection(this.url, this.projectionContractId, { hash: this.hash, revision: this.revision, status: this.status }, null ).subscribe(x => {
+    this.projService.cancelRebuildingProjection(this.url, this.projectionContractId, { hash: this.hash, revision: this.revision, status: this.status }, null).subscribe(x => {
       this.loading = false;
       this.error = x.isSuccess == false;
-   }, () => this.error = true);
+    }, () => this.error = true);
   }
 }

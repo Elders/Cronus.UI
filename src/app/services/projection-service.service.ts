@@ -14,15 +14,15 @@ export class ProjectionServiceService {
   constructor(private http: HttpClient) { }
 
   getProjections(url: string): Observable<IResults> {
-    return this.http.get<IResults>('http://' + url + '/projectionlist');
+    return this.http.get<IResults>('http://' + url + '/projections');
   }
 
   getProjectionDetail(url: string, projectionContractId: string, id: string): Observable<IResults> {
-    return this.http.get<IResults>('http://' + url + '/projection/Explore?ProjectionContractId=' + projectionContractId + '&id=' + id + '');
+    return this.http.get<IResults>('http://' + url + '/projection/Explore?ProjectionName=' + projectionContractId + '&id=' + id + '');
   }
 
   getProjectionMeta(url: string, projectionContractId: string): Observable<IResult<IProjection>> {
-    return this.http.get<IResult<IProjection>>('http://' + url + '/projectionmeta?ProjectionContractId=' + projectionContractId);
+    return this.http.get<IResult<IProjection>>('http://' + url + '/projection/meta?ProjectionContractId=' + projectionContractId);
   }
 
   getPosts() {
@@ -30,11 +30,11 @@ export class ProjectionServiceService {
   }
 
   rebuildProjection(url: string, projectionContractId: string, hash: string): Observable<IResult<any>> {
-    return this.http.post<IResult<any>>('http://' + url + '/ProjectionRebuild', { projectionContractId: projectionContractId, hash: hash });
+    return this.http.post<IResult<any>>('http://' + url + '/Projection/Rebuild', { projectionContractId: projectionContractId, hash: hash });
   }
 
   cancelRebuildingProjection(url: string, projectionContractId: string, version: IProjectionVersion, reason: string): Observable<IResult<any>> {
-    return this.http.post<IResult<any>>('http://' + url + '/ProjectionCancel', { projectionContractId: projectionContractId, version: version, reason: reason });
+    return this.http.post<IResult<any>>('http://' + url + '/Projection/Cancel', { projectionContractId: projectionContractId, version: version, reason: reason });
   }
 
   multiply(first: number, second: number) {

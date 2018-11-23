@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-3">
         <ng2-completer placeholder="192.168.10.160:9000" [(ngModel)]="url" (selected)="onItemSelect($event)" [datasource]="dataService" [minSearchLength]="0" class="ng-input-complete"></ng2-completer>
-       
+
       </div>
       <div class="col-lg-3">
         <input class="col-lg-3" type="text" [(ngModel)]="label" placeholder="Label for client (E.G pruvit)" />
@@ -46,6 +46,8 @@
                 <span *ngIf="b.status == 'building'" class="label label-primary">{{b.hash}} : {{b.revision}}</span>
                 <span *ngIf="b.status == 'canceled'" class="label label-warning">{{b.hash}} : {{b.revision}}</span>
                 <span *ngIf="b.status == 'timedout'" class="label label-danger">{{b.hash}} : {{b.revision}}</span>
+                <span *ngIf="b.status == 'pending'" class="label label-info">{{b.hash}} : {{b.revision}}</span>
+                <span *ngIf="b.status == 'not_present'" class="label label-default">{{b.hash}} : {{b.revision}}</span>
               </a>
             </span>
           </td>
@@ -60,6 +62,8 @@
       <span class="label label-primary">building</span>
       <span class="label label-warning">canceled</span>
       <span class="label label-danger">timedout</span>
+      <span class="label label-info">pending</span>
+      <span class="label label-default">not_present</span>
     </div>
   </div>
 </div>
