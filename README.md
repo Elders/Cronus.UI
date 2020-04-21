@@ -28,3 +28,11 @@ Before running the tests make sure you are serving the app via `ng serve`.
 1. project.bat
 2. npm install
 3. ng serve
+
+
+
+
+
+
+# ALL U NEED TO KNOW
+`docker run --restart=always --name=cronus -d -p 8080:8080 elders/cronus:0.2.0`
