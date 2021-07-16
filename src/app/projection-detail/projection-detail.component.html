@@ -8,7 +8,7 @@
               </label>
               <input type="text" class="form-control col-lg-6" placeholder="Example: urn:mv:account:737" [(ngModel)]="id" >
               <button class="col-lg-3" [disabled]="canQuery == false" (click)="getProjectionDetail(id)">Check</button>
-              <button class="col-lg-3" [disabled]="canRebuild == false" (click)="rebuildProjection()">Rebuild</button>
+              <button class="col-lg-3"  (click)="rebuildProjection()">Rebuild</button>
               <button class="col-lg-3" (click)="cancelProjection()">Cancel</button>
             </div>
             <div>
