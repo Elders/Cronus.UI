@@ -26,7 +26,7 @@
     "@angular/router": "^6.0.0",
     "angular2-fontawesome": "^0.9.3",
     "babel-polyfill": "^6.23.0",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "core-js": "^2.5.7",
     "font-awesome": "^4.7.0",
     "less": "^2.7.3",
